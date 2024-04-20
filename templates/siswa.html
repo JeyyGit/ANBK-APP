@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>ANBK Cihanjaro</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: NiceAdmin
+  * Updated: Jan 29 2024 with Bootstrap v5.3.2
+  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body class="toggle-sidebar">
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="/" class="logo d-flex align-items-center">
+        <img src="assets/img/logo.png" alt="">
+        <span class="d-none d-lg-block">ANBK Cihanjaro</span>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+
+    <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
+
+        <li class="nav-item dropdown pe-3">
+
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+            <span class="d-none d-md-block dropdown-toggle ps-2">{{ siswa.name }}</span>
+          </a><!-- End Profile Iamge Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              <h6>{{ siswa.name }}</h6>
+              <span>Siswa</span>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="/keluar">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Keluar</span>
+              </a>
+            </li>
+
+          </ul><!-- End Profile Dropdown Items -->
+        </li><!-- End Profile Nav -->
+
+      </ul>
+    </nav><!-- End Icons Navigation -->
+
+  </header><!-- End Header -->
+
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+      <li class="nav-item">
+        <a class="nav-link " href="/">
+          <i class="bi bi-grid"></i>
+          <span>Beranda</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-journal-text"></i><span>Ujian</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          {% for e in exams | selectattr('archived', '==', false) %}
+          <li>
+            <a href="/siswa/masuk_ujian/{{ e.exam_id }}">
+              <i class="bi bi-circle"></i><span>{{ e.exam_name }}</span>
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="/siswa/percobaan">
+          <i class="bi bi-list"></i>
+          <span>Percobaan</span>
+        </a>
+      </li>
+
+    </ul>
+
+  </aside><!-- End Sidebar-->
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Beranda Siswa</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Home</a></li>
+          <li class="breadcrumb-item active">Beranda</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+      <div class="row">
+
+        <!-- Left side columns -->
+        <div class="col-lg-12">
+          <div class="row">
+
+            <!-- Ujian -->
+            <div class="col-12">
+              <div class="card top-selling overflow-auto">
+                <div class="card-body pb-0">
+                  <h5 class="card-title">Ujian <span>| Pilih Ujian</span></h5>
+
+                  <table class="table table-hover text-center">
+                    <thead>
+                      <tr>
+                        <th scope="col"><h5><strong>Paket Soal</strong></h5></th>
+                        <th scope="col"><h5><strong>Nama Ujian</strong></h5></th>
+                        <th scope="col"><h5><strong>Waktu mulai</strong></h5></th>
+                        <th scope="col"><h5><strong>Waktu selesai</strong></h5></th>
+                        <th scope="col"><h5><strong>Status</strong></h5></th>
+                        <th scope="col"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for exam in exams | selectattr('archived', '==', false) | list %}
+                      <tr>
+                        <td>
+                          <div class="btn-group dropright">
+                            <button class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">{{
+                              exam.pack_name }}</button>
+                            <ul class="dropdown-menu">
+                              <li class="dropdown-item">Modul: {{ exam.module_name }}</li>
+                              <li class="dropdown-item">Jumlah Soal: {{  (packs | selectattr('id', '==', exam.pack_id) | first).question_count }}</li>
+                              <li class="dropdown-item">Maks. Percobaan: {{ exam.max_attempts }}</li>
+                              <li class="dropdown-item">
+                                Batas waktu pengerjaan:
+                                {% if exam.time_limit %}
+                                {% set hours = exam.time_limit.seconds // 3600 %}
+                                {% set remainder = exam.time_limit.seconds % 3600 %}
+                                {% set minutes = remainder // 60 %}
+                                {% set seconds = remainder % 60 %}
+                                {% set tlimit = "{} hari, {} jam, {} menit, {} detik".format(exam.time_limit.days,
+                                hours, minutes, seconds) %}
+                                {% else %}
+                                {% set tlimit = "-" %}
+                                {% endif %}
+                                {{ tlimit }}
+                              </li>
+                            </ul>
+                          </div>
+                        </td>
+                        <td>{{ exam.exam_name }}</td>
+                        <td>{{ exam.start_dt }}</td>
+                        <td>{{ exam.end_dt or "-" }}</td>
+                        <td>
+                          {% set filtered_attempts = user_attempts | selectattr('exam_id', '==', exam.exam_id) | list %}
+                          {% if attempt %}
+                          {% if attempt.exam_id == exam.exam_id %}
+                          <!-- ada attempt dan lanjut ujian -->
+                          <span class="badge rounded-pill bg-success">Tersedia</span>
+                          {% else %}
+                          <!-- sedang mengerjakan ujian lain -->
+                          <span class="badge rounded-pill bg-danger">Ujian lain sedang berlangsung</span>
+                          {% endif %}
+                          {% else %}
+                          {% if exam.start_dt > exam.start_dt.now() %}
+                          <!-- ujian belum dibuka -->
+                          <span class="badge rounded-pill bg-secondary">Ujian belum dimulai</span>
+                          {% elif exam.end_dt and exam.end_dt < exam.end_dt.now() %} 
+                          <!-- ujian ditutup -->
+                          <span class="badge rounded-pill bg-secondary">Ujian sudah ditutup</span>
+                          {% elif filtered_attempts and exam.max_attempts > 0 and (filtered_attempts | first).count >= exam.max_attempts %}
+                        <!-- Max attempts -->
+                        <span class="badge rounded-pill bg-secondary">Batas percobaan ujian habis</span>
+                            {% else %}
+                            <!-- ujian tersedia -->
+                            <span class="badge rounded-pill bg-success">Tersedia</span>
+                            {% endif %}
+                            {% endif %}
+                        </td>
+                        <td>
+                          {% if attempt %}
+                          {% if attempt.exam_id == exam.exam_id %}
+                          <a href="/siswa/masuk_ujian/{{ exam.exam_id }}" class="btn btn-primary">Lanjut Ujian</a>
+                          {% else %}
+                          <span class="d-inline-block" tabindex="0" data-toggle="tooltip"
+                            title="Anda sedang mengerjakan ujian lain">
+                            <a href="/siswa/masuk_ujian/{{ exam.exam_id }}" class="btn btn-secondary">Ambil
+                              Ujian</a>
+                          </span>
+                          {% endif %}
+                          {% else %}
+                          {% if exam.start_dt > exam.start_dt.now() %}
+                          <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Ujian belum dibuka">
+                            <a href="/siswa/masuk_ujian/{{ exam.exam_id }}" class="btn btn-secondary">Ambil
+                              Ujian</a>
+                          </span>
+                          {% elif exam.end_dt and exam.end_dt < exam.end_dt.now() %} 
+                          <span class="d-inline-block"
+                            tabindex="0" data-toggle="tooltip" title="Ujian sudah ditutup">
+                            <a href="/siswa/masuk_ujian/{{ exam.exam_id }}" class="btn btn-secondary">Ambil
+                              Ujian</a>
+                            </span>
+                            {% elif filtered_attempts and exam.max_attempts > 0 and (filtered_attempts | first).count >= exam.max_attempts %}
+                            <span class="d-inline-block"
+                            tabindex="0" data-toggle="tooltip" title="Batas percobaan ujian habis">
+                            <a href="/siswa/masuk_ujian/{{ exam.exam_id }}" class="btn btn-secondary">Ambil
+                              Ujian</a>
+                            </span>
+                            {% else %}
+                            <a href="/siswa/masuk_ujian/{{ exam.exam_id }}" class="btn btn-primary">Ambil Ujian</a>
+                            {% endif %}
+                            {% endif %}
+                        </td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+
+                </div>
+
+              </div>
+            </div><!-- End Top Selling -->
+
+          </div>
+        </div><!-- End Left side columns -->
+
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+    </div>
+    <div class="credits">
+      <!-- All the links in the footer should remain intact. -->
+      <!-- You can delete the links only if you purchased the pro version. -->
+      <!-- Licensing information: https://bootstrapmade.com/license/ -->
+      <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+      Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/chart.js/chart.umd.js"></script>
+  <script src="assets/vendor/echarts/echarts.min.js"></script>
+  <script src="assets/vendor/quill/quill.min.js"></script>
+  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>

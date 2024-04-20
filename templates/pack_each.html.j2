@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>ANBK Cihanjaro</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="/assets/img/favicon.png" rel="icon">
+  <link href="/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="/assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="/assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="/assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="/assets/css/style.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: NiceAdmin
+  * Updated: Jan 29 2024 with Bootstrap v5.3.2
+  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="/" class="logo d-flex align-items-center">
+        <img src="/assets/img/logo.png" alt="">
+        <span class="d-none d-lg-block">ANBK Cihanjaro</span>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+
+    <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
+
+        <li class="nav-item dropdown">
+
+        <li class="nav-item dropdown pe-3">
+
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <img src="/assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+            <span class="d-none d-md-block dropdown-toggle ps-2">{{ proktor.name }}</span>
+          </a><!-- End Profile Iamge Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              <h6>{{ proktor.name }}</h6>
+              <span>Proktor</span>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="/keluar">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Keluar</span>
+              </a>
+            </li>
+
+          </ul><!-- End Profile Dropdown Items -->
+        </li><!-- End Profile Nav -->
+
+      </ul>
+    </nav><!-- End Icons Navigation -->
+
+  </header><!-- End Header -->
+
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="/">
+          <i class="bi bi-grid"></i>
+          <span>Dashboard</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+
+      <li class="nav-heading">Pages</li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="/proktor/modul">
+          <i class="bi bi-journals"></i>
+          <span>Modul</span>
+        </a>
+      </li><!-- End Modul Page Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="/proktor/siswa">
+          <i class="bi bi-people"></i>
+          <span>Siswa</span>
+        </a>
+      </li><!-- End Siswa Page Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="/proktor/ujian">
+          <i class="bi bi-pencil-square"></i>
+          <span>Ujian</span>
+        </a>
+      </li><!-- End Exam Page Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="/proktor/percobaan">
+          <i class="bi bi-list"></i>
+          <span>Percobaan</span>
+        </a>
+      </li><!-- End Attempts Page Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="/keluar">
+          <i class="bi bi-box-arrow-right"></i>
+          <span>Keluar</span>
+        </a>
+      </li><!-- End Logout Page Nav -->
+
+    </ul>
+
+  </aside><!-- End Sidebar-->
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Lihat Paket Soal</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Home</a></li>
+          <li class="breadcrumb-item active"><a href="/proktor/modul">Modul</a></li>
+          <li class="breadcrumb-item active"><a href="/proktor/modul/{{ module.id }}">Modul ID {{ module.id }} ({{
+              module.name }})</a></li>
+          <li class="breadcrumb-item active">Paket Soal ID {{ pack.id }} ({{ pack.name }})</li>
+        </ol>
+      </nav>
+
+      <!-- <a href="/proktor/modul/tambah" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Tambah Modul</a> -->
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Paket Soal: {{ pack.name }}</h5>
+              <!-- <p>This is an examle page with no contrnt. You can use it as a starter for your custom pages.</p> -->
+
+              <!-- Vertical Form -->
+              <form action="/proktor/modul/{{ module.id }}/paket/{{ pack.id }}/edit" method="post" class="row g-3">
+                <div class="col-12">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="floatingName" name="nama_paket" value="{{ pack.name }}"
+                      required>
+                    <label for="floatingName">Nama Paket Soal <span style="color: red">*</span></label>
+                  </div>
+                </div>
+                <div class="text-center">
+                  <button type="submit" class="btn btn-warning">Edit Paket Soal</button>
+                </div>
+              </form><!-- Vertical Form -->
+
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Daftar Soal</h5>
+              <!-- Basic Modal -->
+              <!-- Tambah Soal -->
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal">
+                <i class="bi bi-plus-lg"></i> Tambah Soal
+              </button>
+              <div class="modal fade" id="basicModal" tabindex="-1">
+                <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                  <form id="addQuestion" action="/proktor/modul/{{ module.id }}/paket/{{ pack.id }}/tambah_soal"
+                    method="post" class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Tambah Soal</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="row g-3">
+                        <div class="col-12">
+                          <label>Pertanyaan <span style="color: red">*</span></label>
+                          <!-- <div id="quill" class="quill-editor-full" style="height: 200px;">
+                             Quill here
+                          </div> -->
+                          <div class="quill-container">
+                            <div id="quill" class="quill-add-editor"></div>
+                          </div>
+                          <textarea name="pertanyaan" class="d-none" id="hiddenTextArea"></textarea>
+                          <textarea name="pertanyaan_html" class="d-none" id="hiddenHTMLArea"></textarea>
+                        </div>
+                        <div id="ans-list" class="col-12 row g-3"> <!-- list -->
+                          <div class="col-12 row g-3">
+                            <div class="col-10">
+                              <div class="form-floating">
+                                <input type="text" class="form-control" id="floatingName" name="jawaban"
+                                  placeholder="Jawaban" required>
+                                <label for="floatingName">Jawaban <span style="color: red">*</span></label>
+                              </div>
+                            </div>
+                            <div class="col-2">
+                              <div class="form-check">
+                                <input type="hidden" name="benar" value="0">
+                                <input class="form-check-input" name="benar" value="1" type="checkbox" id="gridCheck1">
+                                <label class="form-check-label" for="gridCheck1">
+                                  Benar
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col">
+                          <button type="button" class="btn btn-primary" onclick="add_ans()"><i
+                              class="bi bi-plus-lg"></i></button>
+                          <button id="del-btn" type="button" class="btn btn-danger d-none" onclick="del_ans()"><i
+                              class="bi bi-dash-lg"></i></button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                      <button type="submit" class="btn btn-success">Submit</button>
+                    </div>
+                </div>
+
+                </form>
+              </div><!-- End Basic Modal-->
+
+              <section class="section dashboard mt-3">
+                <div class="row">
+
+                  {% for q in questions %}
+                  <div class="col-xxl-3 col-lg-4 col-md-6 ">
+                    <div class="card border">
+
+                      <div class="filter">
+                        <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                          <li>
+                            <a class="dropdown-item"
+                              href="/proktor/modul/{{ module.id }}/paket/{{ pack.id }}/soal/{{ q.id }}/hapus"  onclick="return confirm('Anda akan menghapus data soal: {{ q.question_text|truncate(100) }}')"><i
+                                class="bi bi-trash-fill"></i> Hapus Soal</a>
+                          </li>
+                          {% if q.order > 1 %}
+                          <li>
+                            <a href="/proktor/modul/{{ module.id }}/paket/{{ pack.id }}/soal/{{ q.id }}?direction=mu"
+                              class="dropdown-item"><i class="bi bi-chevron-double-up"></i></a> </a>
+                          </li>
+                          <li>
+                            <a href="/proktor/modul/{{ module.id }}/paket/{{ pack.id }}/soal/{{ q.id }}?direction=u"
+                              class="dropdown-item"><i class="bi bi-chevron-up"></i></a>
+                          </li>
+                          {% endif %}
+                          {% if q.order <= questions|length %} <li>
+                            <a href="/proktor/modul/{{ module.id }}/paket/{{ pack.id }}/soal/{{ q.id }}?direction=d"
+                              class="dropdown-item"><i class="bi bi-chevron-down"></i></a>
+                            </li>
+                            <li>
+                              <a href="/proktor/modul/{{ module.id }}/paket/{{ pack.id }}/soal/{{ q.id }}?direction=md"
+                                class="dropdown-item"><i class="bi bi-chevron-double-down"></i></a> </a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                      </div>
+
+                      <a href="#" class="card-body" data-bs-toggle="modal" data-bs-target="#basicModal{{ q.id }}">
+                        <h5 class="card-title">{{ q.order }}. {{ q.question_text|truncate(255) }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Klik untuk sunting soal</h6>
+                        <span>Jawaban:</span>
+                        <ol type="A">
+                          {% for a in answers %}
+                          {% if a.question_id == q.id %}
+                          <li>
+                            {{ a.answer_text|truncate(30) }}
+                            {% if a.is_correct %}
+                            <i class="bi bi-check-lg"></i>
+                            {% endif %}
+                          </li>
+                          {% endif %}
+                          {% endfor %}
+                        </ol>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="modal fade" id="basicModal{{ q.id }}" tabindex="-1">
+                    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                      <form id="add-question-{{ q.id }}"
+                        action="/proktor/modul/{{ module.id }}/paket/{{ pack.id }}/soal/{{ q.id }}/edit" method="post"
+                        class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Edit Soal</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="row g-3">
+                            <div class="col-12">
+                              <label>Pertanyaan <span style="color: red">*</span></label>
+                              <div class="quill-container">
+                                <div class="quill-editor" data-question-id="{{ q.id }}">{{ q.question_html|safe }}</div>
+                              </div>
+                              <textarea name="pertanyaan" class="d-none" id="hiddenTextArea-{{ q.id }}"></textarea>
+                              <textarea name="pertanyaan_html" class="d-none" id="hiddenHTMLArea-{{ q.id }}"></textarea>
+                            </div>
+                            <div id="ans-list-{{ q.id }}" class="col-12 row g-3"> <!-- list -->
+                              {% set count = namespace(value=0) %}
+                              {% for a in answers %}
+                              {% if a.question_id == q.id %}
+                              {% set count.value = count.value + 1 %}
+                              <div class="col-12 row g-3">
+                                <div class="col-10">
+                                  <div class="form-floating">
+                                    <input type="text" class="form-control" id="floatingName" name="jawaban"
+                                      placeholder="Jawaban" value="{{ a.answer_text }}" required>
+                                    <label for="floatingName">Jawaban <span style="color: red">*</span></label>
+                                  </div>
+                                </div>
+                                <div class="col-2">
+                                  <div class="form-check">
+                                    <input type="hidden" name="benar" value="0">
+                                    <input class="form-check-input" name="benar" value="1" type="checkbox"
+                                      id="gridCheck1" {{ 'checked' if a.is_correct else '' }}>
+                                    <label class="form-check-label" for="gridCheck1">
+                                      Benar
+                                    </label>
+                                  </div>
+                                </div>
+                              </div>
+                              {% endif %}
+                              {% endfor %}
+                            </div>
+                            <div class="col">
+                              <button type="button" class="btn btn-primary" onclick="add_ans_on_q({{ q.id }})"><i
+                                  class="bi bi-plus-lg"></i></button>
+                              <button id="del-btn-{{ q.id }}" type="button"
+                                class="btn btn-danger{{ ' d-none' if count.value == 1 else '' }}"
+                                onclick="del_ans_on_q({{ q.id }})"><i class="bi bi-dash-lg"></i></button> <!-- Fix -->
+                            </div>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                          <button type="submit" class="btn btn-warning">Edit</button>
+                        </div>
+                      </form>
+
+                    </div>
+                  </div><!-- End Basic Modal-->
+                  {% endfor %}
+
+                </div>
+              </section>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+    </div>
+    <div class="credits">
+      <!-- All the links in the footer should remain intact. -->
+      <!-- You can delete the links only if you purchased the pro version. -->
+      <!-- Licensing information: https://bootstrapmade.com/license/ -->
+      <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+      Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="/assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/vendor/chart.js/chart.umd.js"></script>
+  <script src="/assets/vendor/echarts/echarts.min.js"></script>
+  <script src="/assets/vendor/quill/quill.min.js"></script>
+  <script src="/assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="/assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="/assets/vendor/php-email-form/validate.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <!-- Template Main JS File -->
+  <script src="/assets/js/main.js"></script>
+
+  <script>
+
+    var addQuestionEditor = document.getElementById('quill');
+    var addQuill = new Quill(addQuestionEditor, {
+      theme: 'snow',
+      modules: {
+        toolbar: [
+          [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+          [{ 'font': [] }],
+
+          ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+          ['blockquote', 'code-block'],
+
+          [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+          [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
+          [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
+
+          [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+          [{ 'align': [] }],
+
+          ['clean'],                                         // remove formatting button
+          ['link', 'image', 'video'],                        // link and image, video
+        ],
+      },
+      placeholder: 'Ketik soal di sini..',
+    });
+
+    $('.quill-editor').each(function () {
+      // Extract the question ID from the data attribute
+      var questionId = $(this).data('question-id');
+
+      // Get the initial content from the server-rendered HTML
+      var quillText = $(this).text().trim();
+      var quillHTML = $(this).html().trim();
+
+      // Initialize a Quill instance for each question's editor
+      var quillInstance = new Quill(this, {
+        theme: 'snow',
+        modules: {
+          toolbar: [
+            [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+            [{ 'font': [] }],
+
+            ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+            ['blockquote', 'code-block'],
+
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+            [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
+            [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
+
+            [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+            [{ 'align': [] }],
+
+            ['clean'],                                         // remove formatting button
+            ['link', 'image', 'video'],                        // link and image, video
+          ],
+        },
+        placeholder: 'Ketik soal di sini..',
+      });
+
+      quillInstance.clipboard.dangerouslyPasteHTML(quillHTML);
+
+      // Listen for changes in the Quill editor and update hidden fields
+      quillInstance.on('text-change', function () {
+        // Get the latest content from the Quill editor
+        var updatedQuillText = quillInstance.getText().trim();
+        var updatedQuillHTML = quillInstance.root.innerHTML.trim();
+
+        // Update the hidden fields with the latest content
+        $("#hiddenTextArea-" + questionId).val(updatedQuillText);
+        $("#hiddenHTMLArea-" + questionId).val(updatedQuillHTML);
+      });
+
+      // Handle form submission for each question form
+      $('#add-question-' + questionId).on('submit', function (event) {
+        // Retrieve the latest content from the Quill editor
+        var latestQuillText = quillInstance.getText().trim();
+        var latestQuillHTML = quillInstance.root.innerHTML.trim();
+
+        // Update hidden fields with the latest content
+        $("#hiddenTextArea-" + questionId).val(latestQuillText);
+        $("#hiddenHTMLArea-" + questionId).val(latestQuillHTML);
+
+        // Check if the Quill editor is empty and prevent form submission if needed
+        if (latestQuillText === "") {
+          window.alert('Harus ada teks pada kolom pertanyaan');
+          event.preventDefault(); // Prevent form submission if the Quill editor is empty
+        }
+
+        // You can add additional validation or processing logic here
+
+        // Continue with form submission if needed
+      });
+    });
+
+    $('#addQuestion').on('submit', function () {
+      var quillText = $("#quill").text().trim();
+      var quillHTML = $("#quill").html().trim();
+
+      if (quillText !== "") {
+        $("#hiddenTextArea").val(quillText);
+        $("#hiddenHTMLArea").val(quillHTML);
+      } else {
+        window.alert('Harus ada teks pada kolom pertanyaan');
+        return false;
+      }
+
+      return true;
+    });
+
+
+
+    function add_ans() {
+      let list = document.getElementById('ans-list');
+
+      list.insertAdjacentHTML('beforeend', `
+        <div class="col-12 row g-3">
+          <div class="col-10">
+            <div class="form-floating">
+              <input type="text" class="form-control" id="floatingName" name="jawaban"
+                placeholder="Jawaban" required>
+              <label for="floatingName">Jawaban <span style="color: red">*</span></label>
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="form-check">
+              <input type="hidden" name="benar" value="0">
+              <input class="form-check-input" name="benar" value="1" type="checkbox" id="gridCheck1">
+              <label class="form-check-label" for="gridCheck1">
+                Benar
+              </label>
+            </div>
+          </div>
+        </div>
+      `)
+
+      let del_btn = document.getElementById('del-btn');
+      del_btn.classList.remove('d-none');
+    }
+
+    function add_ans_on_q(q_id) {
+      let list = document.getElementById(`ans-list-${q_id}`);
+
+      list.insertAdjacentHTML('beforeend', `
+        <div class="col-12 row g-3">
+          <div class="col-10">
+            <div class="form-floating">
+              <input type="text" class="form-control" id="floatingName" name="jawaban"
+                placeholder="Jawaban" required>
+              <label for="floatingName">Jawaban <span style="color: red">*</span></label>
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="form-check">
+              <input type="hidden" name="benar" value="0">
+              <input class="form-check-input" name="benar" value="1" type="checkbox" id="gridCheck1">
+              <label class="form-check-label" for="gridCheck1">
+                Benar
+              </label>
+            </div>
+          </div>
+        </div>
+      `)
+
+      let del_btn = document.getElementById(`del-btn-${q_id}`);
+      del_btn.classList.remove('d-none');
+    }
+
+    function del_ans() {
+      let list = document.getElementById('ans-list');
+      let del_btn = document.getElementById('del-btn');
+
+      list.removeChild(list.lastElementChild);
+
+      if (list.children.length === 1) {
+        del_btn.classList.add('d-none');
+      }
+    }
+
+    function del_ans_on_q(q_id) {
+      let list = document.getElementById(`ans-list-${q_id}`);
+      let del_btn = document.getElementById(`del-btn-${q_id}`);
+
+      list.removeChild(list.lastElementChild);
+
+      if (list.children.length === 1) {
+        del_btn.classList.add('d-none');
+      }
+    }
+  </script>
+
+</body>
+
+</html>
