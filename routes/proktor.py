@@ -8,6 +8,7 @@ from routes.proktor_modul_paket import pack_router
 from routes.proktor_modul_paket_soal import question_router
 from routes.proktor_siswa import student_router
 from routes.proktor_ujian import exam_router
+from routes.proktor_percobaan import attempt_router
 
 proctor_router = APIRouter(prefix="/proktor")
 
@@ -30,3 +31,4 @@ proctor_router.include_router(pack_router)
 proctor_router.include_router(question_router)
 proctor_router.include_router(student_router)
 proctor_router.include_router(exam_router)
+proctor_router.include_router(attempt_router)
