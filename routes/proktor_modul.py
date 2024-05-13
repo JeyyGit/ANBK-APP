@@ -66,7 +66,7 @@ async def module_add(request: Request, nama_modul: str = Form(...)):
     await db.pool.execute(
         "INSERT INTO modules (name, add_dt) VALUES ($1, $2)",
         nama_modul,
-        dt.datetime.now(),
+        dt.datetime.now(pytz.timezone('Asia/Jakarta')),
     )
 
     return RedirectResponse("/proktor/modul", 303)

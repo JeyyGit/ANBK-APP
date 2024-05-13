@@ -203,10 +203,10 @@
                           <span class="badge rounded-pill bg-danger">Ujian lain sedang berlangsung</span>
                           {% endif %}
                           {% else %}
-                          {% if exam.start_dt > exam.start_dt.now() %}
+                          {% if exam.start_dt > now %}
                           <!-- ujian belum dibuka -->
                           <span class="badge rounded-pill bg-secondary">Ujian belum dimulai</span>
-                          {% elif exam.end_dt and exam.end_dt < exam.end_dt.now() %} 
+                          {% elif exam.end_dt and exam.end_dt < now %} 
                           <!-- ujian ditutup -->
                           <span class="badge rounded-pill bg-secondary">Ujian sudah ditutup</span>
                           {% elif filtered_attempts and exam.max_attempts > 0 and (filtered_attempts | first).count >= exam.max_attempts %}
@@ -230,12 +230,12 @@
                           </span>
                           {% endif %}
                           {% else %}
-                          {% if exam.start_dt > exam.start_dt.now() %}
+                          {% if exam.start_dt > now %}
                           <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Ujian belum dibuka">
                             <a href="/siswa/masuk_ujian/{{ exam.exam_id }}" class="btn btn-secondary">Ambil
                               Ujian</a>
                           </span>
-                          {% elif exam.end_dt and exam.end_dt < exam.end_dt.now() %} 
+                          {% elif exam.end_dt and exam.end_dt < now %} 
                           <span class="d-inline-block"
                             tabindex="0" data-toggle="tooltip" title="Ujian sudah ditutup">
                             <a href="/siswa/masuk_ujian/{{ exam.exam_id }}" class="btn btn-secondary">Ambil

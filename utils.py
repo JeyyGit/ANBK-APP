@@ -2,6 +2,7 @@ import datetime as dt
 import hashlib
 import asyncpg
 import asyncio
+import pytz
 import jwt
 import os
 
@@ -70,7 +71,7 @@ async def check_attempt_finished(attempt):
     ends_at = None
     if interv:
         ends_at = attempt["start_dt"] + dt.timedelta(seconds=interv)
-        return dt.datetime.now() >= ends_at
+        return dt.datetime.now(pytz.timezone('Asia/Jakarta')) >= ends_at
 
     return False
 
@@ -109,7 +110,7 @@ async def worker():
             if await check_attempt_finished(attempt):
                 await db.pool.execute(
                     "UPDATE attempts SET end_dt = $1 WHERE id = $2",
-                    dt.datetime.now(),
+                    dt.datetime.now(pytz.timezone('Asia/Jakarta')),
                     attempt["id"],
                 )
                 print(f'attempt: {attempt["id"]} is finished')
