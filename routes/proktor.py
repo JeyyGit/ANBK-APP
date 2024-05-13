@@ -21,9 +21,23 @@ async def proctor_page(request: Request):
         return RedirectResponse("/")
 
     # start
-    return templates.TemplateResponse(
-        "proktor.html", {"request": request, "proktor": payload}
+    logs = db.pool.fetch(
+        """
+        SELECT *
+        FROM attempts
+        WHERE end_dt IS NULL
+
+        UNION ALL
+
+        SELECT *
+        FROM attempts
+        WHERE end_dt IS NOT NULL
+        """
     )
+    return templates.TemplateResponse(
+        "proktor.html", {"request": request, "proktor": payload, "logs": logs}
+    )
+
 
 proctor_router.include_router(login_router)
 proctor_router.include_router(module_router)
