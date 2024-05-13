@@ -194,7 +194,7 @@ async def siswa_page(request: Request):
             "packs": packs,
             "attempt": attempt,
             "user_attempts": user_attempts,
-            "now": dt.datetime.now(pytz.timezone('Asia/Jakarta'))
+            "now": dt.datetime.now(pytz.timezone('Asia/Jakarta')).replace(tzinfo=None)
         },
     )
 
@@ -274,7 +274,7 @@ async def enter_exam(request: Request, exam_id: int):
             "attempts": attempts,
             "user_attempts": user_attempts,
             "scores": scores,
-            "now": dt.datetime.now(pytz.timezone('Asia/Jakarta'))
+            "now": dt.datetime.now(pytz.timezone('Asia/Jakarta')).replace(tzinfo=None)
         },
     )
 
@@ -323,10 +323,10 @@ async def start_exam(request: Request, exam_id: int):
     if not exam:
         return RedirectResponse("/")
 
-    if exam["start_dt"] > exam["start_dt"].now(pytz.timezone('Asia/Jakarta')):
+    if exam["start_dt"] > exam["start_dt"].now(pytz.timezone('Asia/Jakarta')).replace(tzinfo=None):
         return RedirectResponse("/")
 
-    if exam["end_dt"] and exam["end_dt"] < exam["end_dt"].now(pytz.timezone('Asia/Jakarta')):
+    if exam["end_dt"] and exam["end_dt"] < exam["end_dt"].now(pytz.timezone('Asia/Jakarta')).replace(tzinfo=None):
         return RedirectResponse("/")
 
     user_attempts = await db.pool.fetchval(
@@ -337,7 +337,7 @@ async def start_exam(request: Request, exam_id: int):
     if exam["max_attempts"] > 0 and user_attempts >= exam["max_attempts"]:
         return RedirectResponse("/")
 
-    start_dt = dt.datetime.now(pytz.timezone('Asia/Jakarta'))
+    start_dt = dt.datetime.now(pytz.timezone('Asia/Jakarta')).replace(tzinfo=None)
     await db.pool.execute(
         "INSERT INTO attempts (exam_id, student_id, start_dt, current_question) VALUES ($1, $2, $3, 1)",
         exam_id,
@@ -554,7 +554,7 @@ async def exam_done(request: Request):
     attempt = await get_attempt(payload["id"])
     await db.pool.execute(
         "UPDATE attempts SET end_dt = $1 WHERE id = $2",
-        dt.datetime.now(pytz.timezone('Asia/Jakarta')),
+        dt.datetime.now(pytz.timezone('Asia/Jakarta')).replace(tzinfo=None),
         attempt["id"],
     )
 

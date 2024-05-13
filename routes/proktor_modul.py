@@ -3,6 +3,8 @@ from fastapi.responses import RedirectResponse
 
 import datetime as dt
 
+import pytz
+
 from utils import db, templates, check_jwt
 
 module_router = APIRouter(prefix="/modul")
@@ -66,7 +68,7 @@ async def module_add(request: Request, nama_modul: str = Form(...)):
     await db.pool.execute(
         "INSERT INTO modules (name, add_dt) VALUES ($1, $2)",
         nama_modul,
-        dt.datetime.now(pytz.timezone('Asia/Jakarta')),
+        dt.datetime.now(pytz.timezone('Asia/Jakarta')).replace(tzinfo=None),
     )
 
     return RedirectResponse("/proktor/modul", 303)
