@@ -3,17 +3,23 @@ import hashlib
 import asyncpg
 import asyncio
 import jwt
+import os
 
 from fastapi.templating import Jinja2Templates
+import dotenv
 
+dotenv.load_dotenv()
 
-SECRET = "]=GM(/9C=r5q{)KxY<Qnb?eEOdZKL."
+SECRET = os.environ["SECRET"]
 
 
 class Database:
     async def create_pool(self):
         self.pool = await asyncpg.create_pool(
-            host="127.0.0.1", database="anbk", user="postgres", password="password"
+            host=os.environ["DB_HOST"],
+            database=os.environ["DB_NAME"],
+            user=os.environ["DB_USER"],
+            password=os.environ["DB_PASS"],
         )
 
 
@@ -71,7 +77,7 @@ async def check_attempt_finished(attempt):
 
 async def worker():
     while True:
-        print('checking...')
+        print("checking...")
         await asyncio.sleep(3)
         attempts = await db.pool.fetch(
             """
