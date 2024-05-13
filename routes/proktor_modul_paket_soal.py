@@ -3,7 +3,7 @@ from fastapi.responses import RedirectResponse
 
 from typing import Literal, List
 
-from utils import db, templates, check_jwt
+from utils import db, templates, check_jwt, add_log
 
 question_router = APIRouter(prefix="")
 
@@ -54,6 +54,7 @@ async def edit_question(
     """
     )
 
+    await add_log(payload, f"Menyunting pertanyaan `id: {question_id}`")
     return RedirectResponse(f"/proktor/modul/{module_id}/paket/{pack_id}", 303)
 
 
@@ -123,5 +124,6 @@ async def delete_question(request: Request, module_id: int, pack_id: int, soal_i
     """
     )
 
+    await add_log(payload, f"Menghapus pertanyaan `id: {soal_id}`")
     return RedirectResponse(f"/proktor/modul/{module_id}/paket/{pack_id}")
 

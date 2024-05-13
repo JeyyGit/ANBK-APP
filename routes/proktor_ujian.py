@@ -3,7 +3,7 @@ from fastapi.responses import RedirectResponse
 
 import datetime as dt
 
-from utils import db, templates, check_jwt
+from utils import add_log, db, templates, check_jwt
 
 exam_router = APIRouter(prefix="/ujian")
 
@@ -91,7 +91,6 @@ async def exam_add(
     else:
         time_limit = dt.timedelta(days=day, hours=hour, minutes=minute, seconds=second)
 
-    print(f"{show_score = }")
     await db.pool.execute(
         "INSERT INTO exams (pack_id, proctor_id, name, start_dt, end_dt, time_limit, max_attempts, show_score) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
         pack_id,
@@ -103,6 +102,8 @@ async def exam_add(
         max_attempts,
         show_score
     )
+
+    await add_log(payload, f"Menambahkan ujian baru `{exam_name}`")
     return RedirectResponse("/proktor/ujian", 303)
 
 
@@ -127,6 +128,10 @@ async def exam_edit(
         return RedirectResponse("/")
 
     # start
+    exam = await db.pool.fetchrow("SELECT * FROM exams WHERE id = $1", exam_id)
+    if not exam:
+        return RedirectResponse("/", 303)
+
     if not (day or hour or minute or second):
         time_limit = None
     else:
@@ -143,6 +148,8 @@ async def exam_edit(
         show_score,
         exam_id,
     )
+
+    await add_log(payload, f"Menyunting ujian `{exam['name']}`")
     return RedirectResponse("/proktor/ujian", 303)
 
 @exam_router.get("/{exam_id}/arsip")
@@ -170,6 +177,11 @@ async def exam_delete(request: Request, exam_id: int):
         return RedirectResponse("/")
 
     # start
+    exam = await db.pool.fetchrow("SELECT * FROM exams WHERE id = $1", exam_id)
+    if not exam:
+        return RedirectResponse("/", 303)
+
     await db.pool.execute("DELETE FROM exams WHERE id = $1", exam_id)
 
+    await add_log(payload, f"Menghapus ujian `{exam['name']}`")
     return RedirectResponse("/proktor/ujian")

@@ -71,7 +71,10 @@ async def check_attempt_finished(attempt):
     ends_at = None
     if interv:
         ends_at = attempt["start_dt"] + dt.timedelta(seconds=interv)
-        return dt.datetime.now(pytz.timezone('Asia/Jakarta')).replace(tzinfo=None) >= ends_at
+        return (
+            dt.datetime.now(pytz.timezone("Asia/Jakarta")).replace(tzinfo=None)
+            >= ends_at
+        )
 
     return False
 
@@ -110,7 +113,24 @@ async def worker():
             if await check_attempt_finished(attempt):
                 await db.pool.execute(
                     "UPDATE attempts SET end_dt = $1 WHERE id = $2",
-                    dt.datetime.now(pytz.timezone('Asia/Jakarta')).replace(tzinfo=None),
+                    dt.datetime.now(pytz.timezone("Asia/Jakarta")).replace(tzinfo=None),
                     attempt["id"],
                 )
                 print(f'attempt: {attempt["id"]} is finished')
+
+
+async def add_log(payload, message):
+    actor_id = payload["id"]
+    actor_role = payload["type"]
+    actor_name = payload["name"]
+
+    await db.pool.execute(
+        "INSERT INTO logs (actor_id, actor_role, actor_name, message, log_dt) VALUES ($1, $2, $3, $4, $5)",
+        actor_id,
+        actor_role,
+        actor_name,
+        message,
+        dt.datetime.now(pytz.timezone("Asia/Jakarta")).replace(tzinfo=None),
+    )
+
+    print(f"Added log: [{actor_role}] {actor_name} ({actor_id}): {message}")

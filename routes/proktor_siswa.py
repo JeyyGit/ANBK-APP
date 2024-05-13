@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Request, Form
 from fastapi.responses import RedirectResponse
 
-from utils import db, templates, check_jwt
+from utils import add_log, db, templates, check_jwt
 
 student_router = APIRouter(prefix="/siswa")
 
@@ -43,6 +43,7 @@ async def add_student(
         nama_siswa,
     )
 
+    await add_log(payload, f"Menambah siswa baru `{nama_siswa}`")
     return RedirectResponse("/proktor/siswa", 303)
 
 
@@ -60,6 +61,10 @@ async def edit_student(
         return RedirectResponse("/")
 
     # start
+    student = await db.pool.fetchrow("SELECT * FROM students WHERE id = $1", student_id)
+    if not student:
+        return RedirectResponse("/", 303)
+
     username_siswa = username_siswa.lower()
     await db.pool.execute(
         "UPDATE students SET username = $1, pass_hash = $2, name = $3 WHERE id = $4",
@@ -69,6 +74,7 @@ async def edit_student(
         student_id,
     )
 
+    await add_log(payload, f"Menyunting siswa `{student['name']}`")
     return RedirectResponse("/proktor/siswa", 303)
 
 
@@ -80,8 +86,13 @@ async def delete_student(request: Request, student_id: int):
         return RedirectResponse("/")
 
     # start
+    student = await db.pool.fetchrow("SELECT * FROM students WHERE id = $1", student_id)
+    if not student:
+        return RedirectResponse("/", 303)
+
     await db.pool.execute(
         "DELETE FROM students WHERE id = $1", student_id
     )
 
+    await add_log(payload, f"Menghapus siswa `{student['name']}`")
     return RedirectResponse("/proktor/siswa")

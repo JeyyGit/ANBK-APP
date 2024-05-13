@@ -5,7 +5,7 @@ import datetime as dt
 
 import pytz
 
-from utils import db, templates, check_jwt
+from utils import add_log, db, templates, check_jwt
 
 module_router = APIRouter(prefix="/modul")
 
@@ -71,6 +71,7 @@ async def module_add(request: Request, nama_modul: str = Form(...)):
         dt.datetime.now(pytz.timezone('Asia/Jakarta')).replace(tzinfo=None),
     )
 
+    await add_log(payload, f"Menambahkan modul baru `{nama_modul}`")
     return RedirectResponse("/proktor/modul", 303)
 
 
@@ -81,10 +82,15 @@ async def module_edit(request: Request, module_id: int, nama_modul: str = Form(.
     if not logged_in:
         return RedirectResponse("/")
 
+    module = await db.pool.fetchrow("SELECT * FROM modules WHERE id = $1", module_id)
+    if not module:
+        return RedirectResponse("/", 303)
+    
     await db.pool.execute(
         "UPDATE modules SET name = $1 WHERE id = $2", nama_modul, module_id
     )
 
+    await add_log(payload, f"Menyunting modul `{module['name']}`")
     return RedirectResponse("/proktor/modul/", 303)
 
 
@@ -95,8 +101,13 @@ async def module_delete(request: Request, module_id: int):
     if not logged_in:
         return RedirectResponse("/")
 
+    module = await db.pool.fetchrow("SELECT * FROM modules WHERE id = $1", module_id)
+    if not module:
+        return RedirectResponse("/", 303)
+    
     await db.pool.execute("DELETE FROM modules WHERE id = $1", module_id)
 
+    await add_log(payload, f"Menghapus modul `{module['name']}`")
     return RedirectResponse("/proktor/modul")
 
 
@@ -111,6 +122,7 @@ async def add_packet(request: Request, module_id: int, nama_paket: str = Form(..
         "INSERT INTO packs (module_id, name) VALUES ($1, $2)", module_id, nama_paket
     )
 
+    await add_log(payload, f"Menambahkan paket baru `{nama_paket}`")
     return RedirectResponse(f"/proktor/modul/{module_id}", 303)
 
 # module_router.include_router(pack_router)

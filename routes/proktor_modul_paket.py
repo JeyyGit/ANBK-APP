@@ -3,7 +3,7 @@ from fastapi.responses import RedirectResponse
 
 from typing import List
 
-from utils import db, templates, check_jwt
+from utils import add_log, db, templates, check_jwt
 
 pack_router = APIRouter(prefix="")
 
@@ -50,10 +50,15 @@ async def pack_edit(
         return RedirectResponse("/")
 
     # start
+    pack = await db.pool.fetchrow("SELECT * FROM packs WHERE id = $1", pack_id)
+    if not pack:
+        return RedirectResponse("/", 303)
+
     await db.pool.execute(
         "UPDATE packs SET name = $1 WHERE id = $2", nama_paket, pack_id
     )
 
+    await add_log(payload, f"Menyunting paket `{pack['name']}`")
     return RedirectResponse(f"/proktor/modul/{module_id}/paket/{pack_id}", 303)
 
 
@@ -65,8 +70,13 @@ async def pack_delete(request: Request, module_id: int, pack_id: int):
         return RedirectResponse("/")
 
     # start
+    pack = await db.pool.fetchrow("SELECT * FROM packs WHERE id = $1", pack_id)
+    if not pack:
+        return RedirectResponse("/", 303)
+    
     await db.pool.execute("DELETE FROM packs WHERE id = $1", pack_id)
 
+    await add_log(payload, f"Menghapus paket `{pack['name']}`")
     return RedirectResponse(f"/proktor/modul/{module_id}")
 
 
@@ -115,4 +125,5 @@ async def add_question(
     """
     )
 
+    await add_log(payload, "Menambahkan pertanyaan baru")
     return RedirectResponse(f"/proktor/modul/{module_id}/paket/{pack_id}", 303)

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Request, Form
 from fastapi.responses import RedirectResponse
 
-from utils import db, templates, check_jwt, worker
+from utils import add_log, db, templates, check_jwt, worker
 from routes.siswa_masuk import login_router
 
 from typing import List
@@ -345,6 +345,7 @@ async def start_exam(request: Request, exam_id: int):
         start_dt,
     )
 
+    await add_log(payload, f"Memulai percobaan ujian `{exam['name']}`")
     return RedirectResponse("/siswa/ujian")
 
 
@@ -558,6 +559,9 @@ async def exam_done(request: Request):
         attempt["id"],
     )
 
+    exam = await db.pool.fetchrow("SELECT * FROM exams WHERE id = $1", attempt["exam_id"])
+
+    await add_log(payload, f"Menyelesaikan ujian `{exam['name']}`")
     return RedirectResponse(f"/siswa/masuk_ujian/{attempt['exam_id']}")
 
 
