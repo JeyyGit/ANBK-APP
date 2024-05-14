@@ -280,7 +280,7 @@
                 {% for log in logs %}
                 <div class="activity-item d-flex">
                   {% set _t = humanize.i18n.activate("id_ID") %}
-                  <div class="activite-label text-wrap" style="max-width: 6rem; min-width: 6rem">{{ humanize.naturaltime(log.log_dt.now() - log.log_dt) }}</div>
+                  <div class="activite-label text-wrap" style="max-width: 6rem; min-width: 6rem">{{ humanize.naturaltime(now - log.log_dt) }}</div>
                   {% set _t = humanize.i18n.deactivate() %}
                   <i class='bi bi-circle-fill activity-badge {{ "text-primary" if log.actor_role == "proctor" else "text-warning" }} align-self-start'></i>
                   <div class="activity-content">

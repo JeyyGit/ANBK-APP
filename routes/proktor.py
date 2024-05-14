@@ -1,5 +1,7 @@
 from fastapi import APIRouter, Request
 from fastapi.responses import RedirectResponse
+import datetime as dt
+import pytz
 
 from utils import db, templates, check_jwt
 from routes.proktor_masuk import login_router
@@ -24,7 +26,14 @@ async def proctor_page(request: Request):
     # start
     logs = await db.pool.fetch("SELECT * FROM logs ORDER BY log_dt DESC LIMIT 6")
     return templates.TemplateResponse(
-        "proktor.html", {"request": request, "proktor": payload, "logs": logs, "humanize": humanize}
+        "proktor.html",
+        {
+            "request": request,
+            "proktor": payload,
+            "logs": logs,
+            "humanize": humanize,
+            "now": dt.datetime.now(pytz.timezone("Asia/Jakarta")).replace(tzinfo=None),
+        },
     )
 
 
