@@ -160,12 +160,14 @@ async def exam_archive(request: Request, exam_id: int):
         return RedirectResponse("/")
 
     # start
-    archived = await db.pool.fetchval("SELECT archived FROM exams WHERE id = $1", exam_id)
+    exam = await db.pool.fetchrow("SELECT * FROM exams WHERE id = $1", exam_id)
 
-    if archived:
+    if exam["archived"]:
         await db.pool.execute("UPDATE exams SET archived = false WHERE id = $1", exam_id)
+        await add_log(payload, f"Mengeluarkan dari arsip ujian `{exam['name']}`")
     else:
         await db.pool.execute("UPDATE exams SET archived = true WHERE id = $1", exam_id)
+        await add_log(payload, f"Mengarsip ujian `{exam['name']}`")
 
     return RedirectResponse("/proktor/ujian")
 

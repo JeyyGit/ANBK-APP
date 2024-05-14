@@ -345,7 +345,7 @@ async def start_exam(request: Request, exam_id: int):
         start_dt,
     )
 
-    await add_log(payload, f"Memulai percobaan ujian `{exam['name']}`")
+    await add_log(payload, f"Memulai ujian `{exam['exam_name']}`")
     return RedirectResponse("/siswa/ujian")
 
 

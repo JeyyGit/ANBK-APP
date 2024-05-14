@@ -9,6 +9,7 @@ from routes.proktor_modul_paket_soal import question_router
 from routes.proktor_siswa import student_router
 from routes.proktor_ujian import exam_router
 from routes.proktor_percobaan import attempt_router
+import humanize
 
 proctor_router = APIRouter(prefix="/proktor")
 
@@ -21,21 +22,9 @@ async def proctor_page(request: Request):
         return RedirectResponse("/")
 
     # start
-    logs = db.pool.fetch(
-        """
-        SELECT *
-        FROM attempts
-        WHERE end_dt IS NULL
-
-        UNION ALL
-
-        SELECT *
-        FROM attempts
-        WHERE end_dt IS NOT NULL
-        """
-    )
+    logs = await db.pool.fetch("SELECT * FROM logs ORDER BY log_dt DESC LIMIT 6")
     return templates.TemplateResponse(
-        "proktor.html", {"request": request, "proktor": payload, "logs": logs}
+        "proktor.html", {"request": request, "proktor": payload, "logs": logs, "humanize": humanize}
     )
 
 
