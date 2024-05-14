@@ -74,7 +74,7 @@ async def edit_student(
         student_id,
     )
 
-    await add_log(payload, f"Menyunting siswa `{student['name']}`")
+    await add_log(payload, f"Menyunting siswa `{nama_siswa or student['name']}`")
     return RedirectResponse("/proktor/siswa", 303)
 
 

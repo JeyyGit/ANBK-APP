@@ -149,7 +149,7 @@ async def exam_edit(
         exam_id,
     )
 
-    await add_log(payload, f"Menyunting ujian `{exam['name']}`")
+    await add_log(payload, f"Menyunting ujian `{exam_name or exam['name']}`")
     return RedirectResponse("/proktor/ujian", 303)
 
 @exam_router.get("/{exam_id}/arsip")

@@ -90,7 +90,7 @@ async def module_edit(request: Request, module_id: int, nama_modul: str = Form(.
         "UPDATE modules SET name = $1 WHERE id = $2", nama_modul, module_id
     )
 
-    await add_log(payload, f"Menyunting modul `{module['name']}`")
+    await add_log(payload, f"Menyunting modul `{nama_modul or module['name']}`")
     return RedirectResponse("/proktor/modul/", 303)
 
 

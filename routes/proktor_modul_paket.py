@@ -58,7 +58,7 @@ async def pack_edit(
         "UPDATE packs SET name = $1 WHERE id = $2", nama_paket, pack_id
     )
 
-    await add_log(payload, f"Menyunting paket `{pack['name']}`")
+    await add_log(payload, f"Menyunting paket `{nama_paket or pack['name']}`")
     return RedirectResponse(f"/proktor/modul/{module_id}/paket/{pack_id}", 303)
 
 
