@@ -36,6 +36,25 @@ async def proctor_page(request: Request):
         },
     )
 
+@proctor_router.get("/aktivitas")
+async def activity_page(request: Request):
+    logged_in, payload = check_jwt(request, "proctor")
+
+    if not logged_in:
+        return RedirectResponse("/")
+
+    # start
+    logs = await db.pool.fetch("SELECT * FROM logs ORDER BY log_dt DESC")
+    return templates.TemplateResponse(
+        "proktor_aktivitas.html",
+        {
+            "request": request,
+            "proktor": payload,
+            "logs": logs,
+            "humanize": humanize,
+            "now": dt.datetime.now(pytz.timezone("Asia/Jakarta")).replace(tzinfo=None),
+        },
+    )
 
 proctor_router.include_router(login_router)
 proctor_router.include_router(module_router)

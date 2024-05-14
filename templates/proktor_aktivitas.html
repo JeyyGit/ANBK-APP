@@ -127,14 +127,14 @@
       </li><!-- End Exam Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link" href="/proktor/percobaan">
+        <a class="nav-link collapsed" href="/proktor/percobaan">
           <i class="bi bi-list"></i>
           <span>Percobaan</span>
         </a>
       </li><!-- End Attempts Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="/proktor/aktivitas">
+        <a class="nav-link" href="/proktor/aktivitas">
           <i class="bi bi-columns-gap"></i>
           <span>Aktivitas</span>
         </a>
@@ -158,8 +158,7 @@
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/">Home</a></li>
-          <li class="breadcrumb-item active"><a href="/proktor/percobaan">Percobaan Ujian</a></li>
-          <li class="breadcrumb-item active">Ujian: {{ exam.name }}</li>
+          <li class="breadcrumb-item active"><a href="/proktor/aktivitas">Aktivitas</a></li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -175,25 +174,31 @@
             <div class="col-12">
               <div class="card top-selling overflow-auto">
                 <div class="card-body p-3">
-                  <h5 class="card-title">Percobaan Ujian: {{ exam.name }}</h5>
+                  <h5 class="card-title">Aktivitas</h5>
                   <table id="attempts-table" class="">
                     <thead>
                       <tr>
                         <th data-type="num">#</th>
-                        <th>Siswa</th>
-                        <th data-type="date" data-format="YYYY-MM-DD HH:mm:ss">Waktu Mulai</th>
-                        <th data-type="date" data-format="YYYY-MM-DD HH:mm:ss">Waktu Selesai</th>
-                        <th>Nilai</th>
+                        <!-- <th>Aktor: ID</th> -->
+                        <th>Aktor: Nama</th>
+                        <th>Aktor: Role</th>
+                        <th>Status</th>
+                        <th data-type="date" data-format="YYYY-MM-DD HH:mm:ss">Waktu</th>
+                        <th>Waktu</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {% for a in attempts %}
+                      {% for log in logs %}
                       <tr>
-                        <th>{{ loop.index }}</th>
-                        <td>{{ a.student_name }}</td>
-                        <td>{{ a.start_dt.strftime("%Y-%m-%d %H:%M:%S") }}</td>
-                        <td>{{ a.end_dt.strftime("%Y-%m-%d %H:%M:%S") if a.end_dt else 'Sedang berlangsung' }} {{ '({:.0f} menit)'.format((a.end_dt-a.start_dt).total_seconds() / 60) if a.end_dt }}</td>
-                        <td>{{ scores.get(a.id).score if a.end_dt else 'Sedang berlangsung' }}</td>
+                        <th>{{ loop.index }}</td>
+                        <!-- <td>{{ log.actor_id }}</td> -->
+                        <td>{{ log.actor_name }}</td>
+                        <td><i class='bi bi-circle-fill activity-badge {{ "text-primary" if log.actor_role == "proctor" else "text-warning" }} align-self-start'></i> {{ "PROKTOR" if log.actor_role == "proctor" else "SISWA" }}</td>
+                        <td>{{ log.message }}</td>
+                        <td>{{ log.log_dt.strftime("%Y-%m-%d %H:%M:%S") }}</td>
+                        {% set _t = humanize.i18n.activate("id_ID") %}
+                        <td>{{ humanize.naturaltime(now - log.log_dt) }}</td>
+                        {% set _t = humanize.i18n.deactivate() %}
                       </tr>
                       {% endfor %}
                     </tbody>
