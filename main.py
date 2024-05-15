@@ -36,7 +36,6 @@ async def root_page(request: Request):
     else:
         logged_in = False
 
-    print(f"{logged_in = }")
     if logged_in:
         if payload["type"] == "student":
             return RedirectResponse("/siswa")

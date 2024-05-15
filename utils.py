@@ -78,10 +78,11 @@ async def check_attempt_finished(attempt):
 
     return False
 
-
 async def worker():
+    i = 0
     while True:
-        print("checking...")
+        i += 1 
+        print(f"checking... {i}", end='\r')
         await asyncio.sleep(3)
         attempts = await db.pool.fetch(
             """
@@ -132,5 +133,3 @@ async def add_log(payload, message):
         message,
         dt.datetime.now(pytz.timezone("Asia/Jakarta")).replace(tzinfo=None),
     )
-
-    print(f"Added log: [{actor_role}] {actor_name} ({actor_id}): {message}")
